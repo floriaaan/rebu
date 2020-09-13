@@ -3,9 +3,11 @@ import MapView, { Marker } from "react-native-maps";
 import { StyleSheet, View, Dimensions, Text } from "react-native";
 import { Provider as PaperProvider } from "react-native-paper";
 import AwesomeIcon from "react-native-vector-icons/FontAwesome";
-import PreviewList from "./components/Restaurant/PreviewList";
-import * as Location from "expo-location";
+
 import MapHeader from "./components/Layouts/MapHeader";
+import PreviewList from "./components/Restaurant/PreviewList";
+
+import * as Location from "expo-location";
 import { StatusBar } from "expo-status-bar";
 
 export default function App() {
@@ -65,7 +67,16 @@ export default function App() {
                     longitude: parseFloat(item.boundingbox[2]),
                   }}
                   key={key}
-                ></Marker>
+                >
+                  <View
+                    style={{ ...styles.marker,
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Text style={{fontSize:15}}>🍔</Text>
+                  </View>
+                </Marker>
               );
             })}
           </MapView>
@@ -92,5 +103,11 @@ const styles = StyleSheet.create({
   map: {
     width: Dimensions.get("screen").width,
     height: Dimensions.get("screen").height,
+  },
+  marker: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: "#222222aa",
   },
 });
