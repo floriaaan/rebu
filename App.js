@@ -5,10 +5,14 @@ import { Provider as PaperProvider } from "react-native-paper";
 import AwesomeIcon from "react-native-vector-icons/FontAwesome";
 import PreviewList from "./components/Restaurant/PreviewList";
 import * as Location from "expo-location";
+import MapHeader from "./components/Layouts/MapHeader";
+import { StatusBar } from "expo-status-bar";
 
 export default function App() {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
+
+  const [restaurants, setRestaurants] = useState([]);
 
   useEffect(() => {
     (async () => {
@@ -18,9 +22,25 @@ export default function App() {
       }
 
       let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
+      setLocation({
+        ...location,
+        coords: {
+          ...location.coords,
+          latitudeDelta: 0.003,
+          longitudeDelta: 0.003,
+        },
+      });
     })();
-  });
+
+    const fetchRestaurants = async () => {
+      const response = await fetch(
+        "https://nominatim.openstreetmap.org/search?q=Rouen[amenity=restaurant][delivery=yes]&format=json&addressdetails=1&extratags=1&namedetails=1"
+      );
+      const body = await response.json();
+      setRestaurants(body);
+    };
+    fetchRestaurants();
+  }, []);
 
   return (
     <PaperProvider
@@ -30,17 +50,34 @@ export default function App() {
     >
       {!errorMsg && location ? (
         <View style={styles.container}>
-          <MapView style={styles.map}>
-            <Marker coordinate={location.coords}>
-            </Marker>
-            </MapView>
-          <PreviewList></PreviewList>
+          <MapView
+            style={styles.map}
+            initialRegion={location.coords}
+            showsCompass={false}
+            mapPadding={{ top: 60, bottom: 250, left: 0, right: 0 }}
+          >
+            <Marker coordinate={location.coords}></Marker>
+            {restaurants.map((item, key) => {
+              return (
+                <Marker
+                  coordinate={{
+                    latitude: parseFloat(item.boundingbox[0]),
+                    longitude: parseFloat(item.boundingbox[2]),
+                  }}
+                  key={key}
+                ></Marker>
+              );
+            })}
+          </MapView>
+          <MapHeader></MapHeader>
+          <PreviewList data={restaurants}></PreviewList>
         </View>
       ) : (
         <View style={styles.container}>
           <Text>{errorMsg}</Text>
         </View>
       )}
+      <StatusBar style="light"></StatusBar>
     </PaperProvider>
   );
 }
