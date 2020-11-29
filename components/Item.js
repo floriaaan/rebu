@@ -61,15 +61,12 @@ export default function Item(props) {
         ref={refRBSheet}
         closeOnDragDown={true}
         closeOnPressMask={true}
-        // customStyles={{
-        //   wrapper: {
-        //     opacity: 50,
-        //     backgroundColor: "#222",
-        //   },
-        //   draggableIcon: {
-        //     backgroundColor: "#000",
-        //   },
-        // }}
+        customStyles={{
+          container: {
+            borderTopLeftRadius: 40,
+            borderTopRightRadius: 40,
+          },
+        }}
       >
         <View style={{ height: 400 }}>
           <View

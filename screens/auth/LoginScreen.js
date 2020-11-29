@@ -15,7 +15,7 @@ import Telltale from "../../components/Layouts/Telltale";
 
 let gProvider = new firebase.auth.GoogleAuthProvider();
 
-export default function Login(props) {
+export default function LoginScreen(props) {
   const [snackVisible, setSnackVisible] = useState(false);
   const [loginErr, setLoginErr] = useState("");
   const [email, setEmail] = useState("");
@@ -54,10 +54,14 @@ export default function Login(props) {
   const handleGoogleLogin = async () => {
     firebase
       .auth()
-      .signInWithRedirect(gProvider)
-      // .then(function (result) {
-
-      // })
+      .signInWithCredential(
+        gProvider.credential(
+          ""
+        )
+      )
+      .then(function (result) {
+        console.log(result);
+      })
       .catch(function (error) {
         console.log(error);
       });
@@ -81,23 +85,23 @@ export default function Login(props) {
   };
 
   const scanBiometrics = async () => {
-    let result = await LocalAuthentication.authenticateAsync({
-      promptMessage: "Log into RebuEats 🔐",
-    });
-    if (result.success) {
-      firebase
-        .auth()
-        .signInAnonymously()
-        .then(() => {
-          props.route.params._auth(firebase.auth().currentUser);
-        })
-        .catch((err) => {
-          console.log(err);
-          Alert.alert("😰", "Server can't keep up");
-        });
-    } else {
-      Alert.alert("😰", "Fingerprint does not works");
-    }
+    // let result = await LocalAuthentication.authenticateAsync({
+    //   promptMessage: "Log into RebuEats 🔐",
+    // });
+    // if (result.success) {
+    firebase
+      .auth()
+      .signInAnonymously()
+      .then(() => {
+        props.route.params._auth(firebase.auth().currentUser);
+      })
+      .catch((err) => {
+        console.log(err);
+        Alert.alert("😰", "Server can't keep up");
+      });
+    // } else {
+    //   Alert.alert("😰", "Fingerprint does not works");
+    // }
   };
 
   return (
@@ -167,7 +171,7 @@ export default function Login(props) {
           <Button
             icon="plus"
             mode="outlined"
-            onPress={() => navigation.navigate("Register")}
+            onPress={() => props.navigation.navigate("Register")}
             style={{ width: Dimensions.get("screen").width / 2 - 25 }}
           >
             Sign up

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Divider, TextInput } from "react-native-paper";
+import { Divider, Searchbar } from "react-native-paper";
 import Item from "../components/Item";
 import Grid from "../components/Layouts/Grid";
 import ScreenTemplate from "../components/Layouts/ScreenTemplate";
@@ -9,20 +9,20 @@ export default function SearchScreen(props) {
   const [input, setInput] = useState("");
 
   return (
-    <ScreenTemplate title="Search" navigation={props.navigation} auth={props.route.params.auth}>
+    <ScreenTemplate
+      title="Search"
+      navigation={props.navigation}
+      auth={props.route.params.auth}
+    >
       {input === "" && (
         <Telltale
           line1={{ text: "Hey ", name: "Florian" }}
           line2={{ text: "what's up ?" }}
         ></Telltale>
       )}
-      <TextInput
-        style={{ margin: 30, color: "#3FC060" }}
-        label="Search a meal/restaurant 🧐"
-        mode="outlined"
-        theme={{
-          colors: { primary: "#3FC060", underlineColor: "transparent" },
-        }}
+      <Searchbar
+        style={{ margin: 30, elevation: 1 }}
+        placeholder="Search a meal/restaurant 🧐"
         value={input}
         onChangeText={(input) => setInput(input)}
       />
@@ -56,9 +56,14 @@ export default function SearchScreen(props) {
           },
         ]}
         renderItem={({ item }) => (
-          <Item name={item.name} image={item.image} price={item.price} style={{
-            marginTop: 20
-          }}></Item>
+          <Item
+            name={item.name}
+            image={item.image}
+            price={item.price}
+            style={{
+              marginTop: 20,
+            }}
+          ></Item>
         )}
       ></Grid>
     </ScreenTemplate>
