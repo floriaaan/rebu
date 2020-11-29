@@ -1,11 +1,11 @@
 import React from "react";
-import { View, Text, Dimensions } from "react-native";
+import { View, Dimensions } from "react-native";
 import Header from "./Header";
 
 export default function ScreenTemplate(props) {
   return (
     <View>
-      <Header title={props.title}></Header>
+      <Header title={props.title} navigation={props.navigation} auth={props.auth}></Header>
       <View
         style={{
           position: "absolute",

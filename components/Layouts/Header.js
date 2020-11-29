@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Dimensions, Text, Platform } from "react-native";
-import { IconButton } from "react-native-paper";
+import { Badge, IconButton } from "react-native-paper";
 import { human, systemWeights } from "react-native-typography";
 
 export default function Header(props) {
@@ -23,12 +23,14 @@ export default function Header(props) {
           flexDirection: "row",
         }}
       >
-        <IconButton
-          icon="menu"
-          color="#fff"
-          size={30}
-          onPress={() => console.log("Pressed")}
-        />
+        {props.auth.uid && (
+          <IconButton
+            icon="menu"
+            color="#fff"
+            size={30}
+            onPress={props.navigation.toggleDrawer}
+          />
+        )}
 
         <Text
           style={{
@@ -39,19 +41,54 @@ export default function Header(props) {
             ...systemWeights.bold,
             color: "#fff",
             marginLeft: 20,
-            marginTop: -3
+            marginTop: -3,
           }}
         >
           {props.title}
         </Text>
       </View>
 
-      <IconButton
-        icon="cart-outline"
-        color="#fff"
-        size={27}
-        onPress={() => console.log("Pressed")}
-      />
+      {props.auth.uid && (
+        <View style={{ flexDirection: "row" }}>
+          {props.title !== "Search" ? (
+            <IconButton
+              icon="magnify"
+              color="#fff"
+              size={27}
+              onPress={() => props.navigation.navigate("Search")}
+            />
+          ) : (
+            <IconButton
+              icon="keyboard-backspace"
+              color="#fff"
+              size={27}
+              onPress={() => props.navigation.navigate("Home")}
+            />
+          )}
+          <View style={{ flexDirection: "column" }}>
+            <IconButton
+              icon="cart-outline"
+              color="#fff"
+              size={27}
+              onPress={() => console.log("Pressed")}
+            />
+            <Badge
+              style={{
+                position: "absolute",
+                marginTop: 5,
+                marginRight: 5,
+                backgroundColor: "#3FC060",
+                color: "#fff",
+                fontSize: 13,
+              }}
+              size={17}
+            >
+              3
+            </Badge>
+          </View>
+        </View>
+      )}
+
       {/* <Image
         style={{ height: 31, width: 190 }}
         source={require("../../assets/rebu-white.png")}

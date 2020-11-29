@@ -1,9 +1,11 @@
 import React from "react";
-import { View, Text } from "react-native";
-import { FAB } from "react-native-paper";
+import { View, Text, ScrollView } from "react-native";
+import { Colors, FAB, IconButton } from "react-native-paper";
 import Item from "./Item";
 
 export default function Category(props) {
+  const [editMode, setEditMode] = React.useState(false);
+
   return (
     <View
       style={{
@@ -12,20 +14,57 @@ export default function Category(props) {
         flexDirection: "column",
       }}
     >
-      <Text
+      <View
         style={{
-          fontSize: 30,
+          flexDirection: "row",
+          alignItems: "center",
           marginBottom: 20,
+          justifyContent: "space-between",
         }}
       >
-        {props.name}
-      </Text>
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <Text
+          style={{
+            fontSize: 30,
+          }}
+        >
+          {props.name}
+        </Text>
+        {props.favorite && (
+          <IconButton
+            icon={editMode ? "close" : "trash-can-outline"}
+            color={editMode ? "#707070" : Colors.red500}
+            size={20}
+            onPress={() => setEditMode(!editMode)}
+          />
+        )}
+      </View>
+
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{ alignItems: "center" }}
+        style={{ flexDirection: "row" }}
+      >
         {props.items.map((el, key) => {
-          return <Item name={el.name} price={el.price} key={key}></Item>;
+          return props.favorite ? (
+            <Item
+              name={el.name}
+              image={el.image}
+              price={el.price}
+              edit={editMode}
+              key={key}
+            ></Item>
+          ) : (
+            <Item
+              name={el.name}
+              image={el.image}
+              price={el.price}
+              key={key}
+            ></Item>
+          );
         })}
 
-        {props.add && (
+        {props.favorite && (
           <FAB
             style={{
               backgroundColor: "#3FC060",
@@ -41,7 +80,7 @@ export default function Category(props) {
             onPress={() => console.log("Pressed")}
           />
         )}
-      </View>
+      </ScrollView>
     </View>
   );
 }
