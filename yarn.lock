@@ -5208,6 +5208,13 @@ react-native-motion@^1.0.5:
   dependencies:
     prop-types "^15.5.10"
 
+react-native-paper-datetimepicker@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-paper-datetimepicker/-/react-native-paper-datetimepicker-0.0.2.tgz#d51d99f0ce066542b1fa25bb87dd8896141bbcc6"
+  integrity sha512-iLrmgz7dNErpjAczW6F1yhonTiLUkvLSvycSuIlNjYAgbM86mFDqx0KfitggE1jibkaA3Rve1QxjG79PrD+lbA==
+  dependencies:
+    react-native-web-hover "^0.2.7"
+
 react-native-paper@^4.4.0:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/react-native-paper/-/react-native-paper-4.4.0.tgz#d22b2a3032a880dbf0f69c4ad9ef065b44102c7e"
@@ -5272,6 +5279,11 @@ react-native-typography@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/react-native-typography/-/react-native-typography-1.4.1.tgz#2d05cb5935a2f7fdb6b43bbde93d60f1324578e3"
   integrity sha512-dc9Zfs4jUdq4ygx4/KwO6jKTERBu6cRrfPJGntw/pA+D6BMjlWfMNuhZ/69vf4Zpsnt9s4AGe+Z/V1QFYaCXAA==
+
+react-native-web-hover@^0.2.7:
+  version "0.2.9"
+  resolved "https://registry.yarnpkg.com/react-native-web-hover/-/react-native-web-hover-0.2.9.tgz#aee61d09cb92fce93f55fa7c9d6ebbd28899fded"
+  integrity sha512-6hXQMLptJPDn67xlgmA6eh42LWlHb2THjaedNqW5N8rwutEqsta/zoCYTAJNz+1U/tGW9ZrZVXitUnoLie/itQ==
 
 react-native-web@~0.11.7:
   version "0.11.7"
