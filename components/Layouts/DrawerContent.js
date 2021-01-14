@@ -32,15 +32,21 @@ export function DrawerContent(props) {
     <DrawerContentScrollView {...props}>
       <View style={styles.drawerContent}>
         <View style={styles.userInfoSection}>
-          <Avatar.Image
-            source={{
-              uri:
-                "https://avatars0.githubusercontent.com/u/10078837?s=460&u=3c5bb03510dda069aa9b69c2d345719a3f1a073a&v=4",
-            }}
-            size={100}
-          />
-          <Title style={styles.title}>Florian Leroux</Title>
-          <Caption style={styles.caption}>@floriaaan</Caption>
+          {!props.auth.isAnonymous && (
+            <Avatar.Image
+              source={{
+                uri:
+                  "https://avatars0.githubusercontent.com/u/10078837?s=460&u=3c5bb03510dda069aa9b69c2d345719a3f1a073a&v=4",
+              }}
+              size={100}
+            />
+          )}
+          <Title style={styles.title}>
+            {!props.auth.isAnonymous ? props.auth.displayName : "Anonymous"}
+          </Title>
+          <Caption style={styles.caption}>
+            {!props.auth.isAnonymous ? props.auth.email : "@anonymous"}
+          </Caption>
           <Divider style={{ marginTop: 20, marginLeft: -20 }} />
           {/* <View style={styles.row}>
             <View style={styles.section}>
@@ -77,17 +83,19 @@ export function DrawerContent(props) {
               label="Home"
               onPress={() => props.navigation.navigate("Home")}
             />
-            <DrawerItem
-              icon={({ color, size }) => (
-                <MaterialCommunityIcons
-                  name="account-outline"
-                  color={color}
-                  size={size}
-                />
-              )}
-              label="Profile"
-              onPress={() => {}}
-            />
+            {!props.auth.isAnonymous && (
+              <DrawerItem
+                icon={({ color, size }) => (
+                  <MaterialCommunityIcons
+                    name="account-outline"
+                    color={color}
+                    size={size}
+                  />
+                )}
+                label="Profile"
+                onPress={() => {}}
+              />
+            )}
 
             <DrawerItem
               icon={({ color, size }) => (
@@ -98,7 +106,7 @@ export function DrawerContent(props) {
                 />
               )}
               label="Orders"
-              onPress={() => props.navigation.navigate("Receipt")}
+              onPress={() => props.navigation.navigate("Orders")}
             />
             <DrawerItem
               icon={({ color, size }) => (

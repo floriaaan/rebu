@@ -3,7 +3,6 @@ import { View, Dimensions, Text } from "react-native";
 import { TextInput, Button, Snackbar } from "react-native-paper";
 import ScreenTemplate from "../../components/Layouts/ScreenTemplate";
 
-// import firebase from "../../utils/firebase";
 import Telltale from "../../components/Layouts/Telltale";
 import ProcessBar from "../../components/Layouts/ProcessBar";
 
@@ -33,6 +32,7 @@ export default function RegisterScreen(props) {
     fname: "",
     lname: "",
   });
+
 
   return (
     <ScreenTemplate
@@ -102,9 +102,6 @@ export default function RegisterScreen(props) {
       >
         {loginErr}
       </Snackbar>
-      <View>
-        <Text>{JSON.stringify(data)}</Text>
-      </View>
     </ScreenTemplate>
   );
 }

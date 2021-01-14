@@ -9,11 +9,11 @@ export default function HomeScreen(props) {
   return (
     <ScreenTemplate title="Rebu Eats" navigation={props.navigation} auth={props.route.params.auth}>
       <Telltale
-        line1={{ text: "Hey ", name: "Florian" }}
+        line1={{ text: "Hey ", name: !props.route.params.auth.isAnonymous ? "Florian": "anonymous" }}
         line2={{ text: "what's up ?" }}
       ></Telltale>
       <Category
-        name="Favorites meals 😍"
+        name={!props.route.params.auth.isAnonymous ? "Favorites meals 😍" : "Proposed meals 🧐"}
         items={[
           {
             name: "Crousty Cheese",

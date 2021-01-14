@@ -6,21 +6,56 @@ import { Culinary } from "../../const";
 import { ScrollView } from "react-native-gesture-handler";
 import { Dimensions, Text, View } from "react-native";
 
+import firebase from "../../utils/firebase";
+
 export default SecondStep = (props) => {
   const [culinaryPreferences, setCP] = useState([]);
 
-  const handleStep = () => {
-    if (fname !== "" && lname !== "") {
-      props.setData({
-        ...props.data,
-        culinaryPreferences: culinaryPreferences,
-      });
+  const handleStep = async () => {
+    props.setData({
+      ...props.data,
+      culinaryPreferences: culinaryPreferences,
+    });
 
-      props.setSteps(true);
+    await firebase
+      .auth()
+      .createUserWithEmailAndPassword(props.data.email, props.data.password);
 
-      props.setProgress([{ value: 1 }, { value: 1 }, { value: 1 }]);
-    } else {
-    }
+    await firebase.auth().currentUser.updateProfile({
+      displayName: `${props.data.fname} ${props.data.lname}`,
+    })
+
+    await createUser(firebase.auth().currentUser.uid);
+
+    props.setSteps(true);
+
+    props.setProgress([{ value: 1 }, { value: 1 }, { value: 1 }]);
+  };
+
+  const handleBack = () => {
+    props.setData({
+      ...props.data,
+      culinaryPreferences: "",
+    });
+
+    props.setSteps({
+      current: 2,
+      total: 3,
+      name: "Enter your identity",
+    });
+    props.setProgress([
+      { value: 1 },
+      { value: 0, indeterminate: true },
+      { value: 0 },
+    ]);
+  };
+
+  const createUser = async (uid) => {
+    let jsonUser = props.data;
+    delete jsonUser.password;
+    jsonUser.culinaryPreferences = JSON.stringify(props.data.culinaryPreferences);
+    console.log(jsonUser);
+    await firebase.firestore().collection("users").doc(uid).set(jsonUser);
   };
 
   const handleCheck = (culinary) => {
@@ -65,6 +100,7 @@ export default SecondStep = (props) => {
           style={{ width: Dimensions.get("screen").width / 2 - 25 }}
           color="#162328"
           mode="outlined"
+          onPress={handleBack}
         >
           Back
         </Button>

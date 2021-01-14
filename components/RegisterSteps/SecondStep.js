@@ -4,8 +4,8 @@ import { Dimensions, View } from "react-native";
 import { TextInput, Button } from "react-native-paper";
 
 export default SecondStep = (props) => {
-  const [fname, setFName] = useState("");
-  const [lname, setLName] = useState("");
+  const [fname, setFName] = useState(props.data.fname || "");
+  const [lname, setLName] = useState(props.data.lname || "");
 
   const handleFName = (text) => {
     setFName(text);
@@ -31,6 +31,25 @@ export default SecondStep = (props) => {
       ]);
     } else {
     }
+  };
+
+  const handleBack = () => {
+    props.setData({
+      ...props.data,
+      fname: "",
+      lname: "",
+    });
+
+    props.setSteps({
+      current: 1,
+      total: 3,
+      name: "Enter your credentials",
+    });
+    props.setProgress([
+      { value: 0, indeterminate: true },
+      { value: 0 },
+      { value: 0 },
+    ]);
   };
 
   return (
@@ -70,6 +89,7 @@ export default SecondStep = (props) => {
           style={{ width: Dimensions.get("screen").width / 2 - 25 }}
           color="#162328"
           mode="outlined"
+          onPress={handleBack}
         >
           Back
         </Button>

@@ -38,27 +38,23 @@ export default function LoginScreen(props) {
 
   const [biometricsCompatible, setBC] = useState(false);
 
-  const handleLogin = () => {
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then((user) => {
-        props.route.params._auth(user);
-      })
-      .catch((err) => {
-        setLoginErr(err.message);
-        setSnackVisible(true);
-      });
+  const handleLogin = async () => {
+    try {
+      const user = await firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password);
+        console.log(firebase.auth().currentUser)
+      props.route.params._auth(user);
+    } catch (err) {
+      setLoginErr(err.message);
+      setSnackVisible(true);
+    }
   };
 
   const handleGoogleLogin = async () => {
     firebase
       .auth()
-      .signInWithCredential(
-        gProvider.credential(
-          ""
-        )
-      )
+      .signInWithCredential(gProvider.credential(""))
       .then(function (result) {
         console.log(result);
       })

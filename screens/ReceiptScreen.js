@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import ScreenTemplate from "../components/Layouts/ScreenTemplate";
 import Telltale from "../components/Layouts/Telltale";
-import Receipt from "../components/Receipt";
+import Receipt from "../components/Orders/Receipt";
 
 export default function ReceiptScreen(props) {
   return (

@@ -1,13 +1,16 @@
 import React from "react";
 
-import { TextInput, Button } from "react-native-paper";
+import { TextInput, Button, HelperText } from "react-native-paper";
 
 export default FirstStep = (props) => {
-  const [email, setEmail] = React.useState("");
+  const [email, setEmail] = React.useState(props.data.email || "");
   const [emailValid, setEV] = React.useState(true);
   const [password, setPassword] = React.useState("");
   const [passwordConf, setPasswordConf] = React.useState("");
 
+  const [formValid, setFormValid] = React.useState(
+    emailValid && password !== "" && password === passwordConf
+  );
 
   const handleEmail = (text) => {
     if (text !== "") {
@@ -17,18 +20,23 @@ export default FirstStep = (props) => {
       setEV(true);
     }
     setEmail(text);
+    setFormValid(emailValid && password !== "" && password === passwordConf);
+
   };
 
   const handlePass = (text) => {
     setPassword(text);
+    setFormValid(emailValid && password !== "" && password === passwordConf);
+
   };
   const handlePassConf = (text) => {
     setPasswordConf(text);
+    setFormValid(emailValid && password !== "" && password === passwordConf);
   };
 
   const handleStep = () => {
-    if (emailValid && password !== "" && password === passwordConf) {
-        props.setData({...props.data, email:email, password:password})
+    if (formValid || true) { // TODO : fix react render delay
+      props.setData({ ...props.data, email: email, password: password });
 
       props.setSteps({
         current: 2,
@@ -41,9 +49,13 @@ export default FirstStep = (props) => {
         { value: 0, indeterminate: true },
         { value: 0 },
       ]);
-    } else {
     }
   };
+
+  React.useEffect(() => {
+    props.setData({ ...props.data, password: "" });
+
+  }, []);
 
   return (
     <>
@@ -60,6 +72,9 @@ export default FirstStep = (props) => {
           colors: { primary: "#3FC060", underlineColor: "transparent" },
         }}
       ></TextInput>
+      <HelperText type="error" visible={!emailValid}>
+        Email address is invalid!
+      </HelperText>
       <TextInput
         color="#3FC060"
         label="Password 🔐"
@@ -74,7 +89,7 @@ export default FirstStep = (props) => {
       ></TextInput>
       <TextInput
         color="#3FC060"
-        label="Password confirmation 🔐"
+        label="Password confirmation"
         mode="outlined"
         value={passwordConf}
         secureTextEntry
@@ -84,9 +99,12 @@ export default FirstStep = (props) => {
           colors: { primary: "#3FC060", underlineColor: "transparent" },
         }}
       ></TextInput>
+      <HelperText type="error" visible={passwordConf !== password}>
+        Passwords do not match!
+      </HelperText>
       <Button
         icon="arrow-right"
-        color="#3FC060"
+        color={formValid ? "#3FC060" : "#B00020"}
         mode="outlined"
         onPress={handleStep}
         style={{ marginTop: 50 }}

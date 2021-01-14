@@ -20,9 +20,10 @@ import firebase from "./utils/firebase";
 import "./utils/firebase_fix";
 
 import { routes, authentication } from "./routes";
+import { user } from "./const";
 
 export default function App() {
-  const [auth, setAuth] = React.useState({});
+  const [auth, setAuth] = React.useState(user);
 
   return (
     <PaperProvider
@@ -34,7 +35,7 @@ export default function App() {
       <NavigationContainer>
         {auth.uid ? (
           <Drawer.Navigator
-            initialRouteName="Home"
+            initialRouteName="Orders"
             drawerContent={(props) => (
               <DrawerContent auth={auth} _auth={setAuth} {...props} />
             )}

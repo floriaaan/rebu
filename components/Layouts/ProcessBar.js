@@ -4,41 +4,46 @@ import { ProgressBar } from "react-native-paper";
 
 export default function ProcessBar(props) {
   return (
-    <View>
-      <View
-        style={{
-          flexDirection: "row",
-          ...props.style,
-        }}
-      >
-        <Text style={{ fontSize: 18 }}>Step </Text>
-        <Text
+    <View style={{ ...props.containerStyle }}>
+      {props.steps !== true && (
+        <View
           style={{
-            color: props.color || "#3FC060",
-            fontSize: 18,
-            fontWeight: "bold",
+            flexDirection: "row",
+            marginBottom: props.order ? 5 : 0,
+            ...props.style,
           }}
         >
-          {props.steps.current}
-        </Text>
-        <Text style={{ fontSize: 18 }}> on </Text>
-        <Text style={{ fontSize: 18 }}>{props.steps.total} : </Text>
-        <Text
-          style={{
-            color: props.color || "#3FC060",
-            fontSize: 18,
-            fontWeight: "bold",
-          }}
-        >
-          {props.steps.name}
-        </Text>
-      </View>
+          {!props.order && <Text style={{ fontSize: 18 }}>Step </Text>}
+          <Text
+            style={{
+              color: props.color || "#3FC060",
+              fontSize: props.order ? 14 : 18,
+              fontWeight: "bold",
+            }}
+          >
+            {props.steps.current}
+          </Text>
+          <Text style={{ fontSize: props.order ? 14 : 18, color: "#777" }}>
+            {" "}
+            {props.order ? " / " : "on"} {props.steps.total} :{" "}
+          </Text>
+          <Text
+            style={{
+              color: props.color || "#3FC060",
+              fontSize: props.order ? 14 : 18,
+              fontWeight: "bold",
+            }}
+          >
+            {props.steps.name}
+          </Text>
+        </View>
+      )}
 
       <View
         style={{
           flexDirection: "row",
           width: Dimensions.get("screen").width,
-          marginLeft: 30,
+          marginLeft: props.order ? 0 : 30,
           marginBottom: 30,
         }}
       >
