@@ -5,7 +5,7 @@ import Header from "./Header";
 export default function ScreenTemplate(props) {
   return (
     <View>
-      <Header title={props.title} navigation={props.navigation} auth={props.auth}></Header>
+      <Header title={props.title} navigation={props.navigation} auth={props.auth} back={props.back || false}></Header>
       <View
         style={{
           position: "absolute",

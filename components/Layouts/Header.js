@@ -25,10 +25,10 @@ export default function Header(props) {
       >
         {props.auth.uid && (
           <IconButton
-            icon="menu"
+            icon={!props.back ? "menu" : "arrow-left"}
             color="#fff"
             size={30}
-            onPress={props.navigation.toggleDrawer}
+            onPress={!props.back ? props.navigation.toggleDrawer : props.navigation.goBack}
           />
         )}
 

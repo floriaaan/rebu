@@ -1,14 +1,14 @@
 import React from "react";
 import { Dimensions, ScrollView, Text, View } from "react-native";
 import ScreenTemplate from "../components/Layouts/ScreenTemplate";
+import Telltale from "../components/Layouts/Telltale";
 import Order from "../components/Orders/Order";
 import firebase from "../utils/firebase";
 
 export default function OrderListScreen(props) {
   const [oInProgress, setOInProgress] = React.useState([]);
   const [oDone, setODone] = React.useState([]);
-
-  const RenderList = ({ list }) => {
+  const RenderList = ({ list, navigation }) => {
     return (
       <ScrollView
         style={{
@@ -22,6 +22,7 @@ export default function OrderListScreen(props) {
             <Order
               data={el}
               large={el.status === "in_progress"}
+              navigation={navigation}
               key={key}
             ></Order>
           );
@@ -71,8 +72,19 @@ export default function OrderListScreen(props) {
       auth={props.route.params.auth}
     >
       <View style={{ marginTop: 50 }}>
-        <RenderList list={oInProgress}></RenderList>
-        <RenderList list={oDone}></RenderList>
+        <Telltale
+          style={{ paddingHorizontal: 20, marginBottom: 15 }}
+          line1={{ text: "Orders ", name: "in progress" }}
+        ></Telltale>
+        <RenderList
+          list={oInProgress}
+          navigation={props.navigation}
+        ></RenderList>
+        <Telltale
+          style={{ paddingHorizontal: 20, marginBottom: 15 }}
+          line1={{ text: "Orders ", name: "done" }}
+        ></Telltale>
+        <RenderList list={oDone} navigation={props.navigation}></RenderList>
       </View>
     </ScreenTemplate>
   );

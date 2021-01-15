@@ -10,7 +10,7 @@ export default function Order(props) {
     <>
       <TouchableOpacity
         onPress={() => {
-          console.log("Short press");
+         props.navigation.navigate("Order", {id: props.data.id});
         }}
         onLongPress={() => refRBSheet.current.open()}
       >
@@ -26,26 +26,43 @@ export default function Order(props) {
             justifyContent: "space-between",
           }}
         >
-          {props.data.provider.image ? (
+          {props.data.provider.image && props.large ? (
             <Image
-              style={{ borderRadius: 20, height: 50 }}
+              style={{ borderRadius: 5, height: 80 }}
               source={{
-                uri: props.data.image,
+                uri: props.data.provider.image,
               }}
             />
           ) : (
             <></>
           )}
+          <View style={{ flexDirection: "row" }}>
+            <Text style={{ fontWeight: "bold" }}>
+              {props.data.provider.name} -
+            </Text>
+            <Text style={{ fontWeight: "bold", color: "#3FC060" }}>
+              {" " + props.data.total}
+            </Text>
+          </View>
 
-          {props.data.progress && typeof props.data.progress === "object" && (
+          {props.data.status === "in_progress" &&
+            props.data.progress &&
+            typeof props.data.progress === "object" && (
+              <ProcessBar
+                order
+                steps={
+                  props.data.steps && typeof props.data.steps === "object"
+                    ? props.data.steps
+                    : true
+                }
+                progress={props.data.progress}
+              ></ProcessBar>
+            )}
+          {props.data.status === "done" && (
             <ProcessBar
               order
-              steps={
-                props.data.steps && typeof props.data.steps === "object"
-                  ? props.data.steps
-                  : true
-              }
-              progress={props.data.progress}
+              steps={true}
+              progress={[{ value: 1 }, { value: 1 }, { value: 1 }]}
             ></ProcessBar>
           )}
         </View>
@@ -62,7 +79,7 @@ export default function Order(props) {
           },
         }}
       >
-        <View style={{ height: 400 }}>
+        <View style={{ height: 800 }}>
           <View style={{ padding: 20 }}>
             <Text>{JSON.stringify(props.data)}</Text>
           </View>
