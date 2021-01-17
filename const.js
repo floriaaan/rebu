@@ -54,3 +54,5 @@ export const user = LOCAL
       uid: "bsE9n0i9rUWkv1EteV1cmjBBJFc2",
     }
   : {};
+
+export const MAPS_APIKEY = process.env.EXPO_MAPS_APIKEY || "";

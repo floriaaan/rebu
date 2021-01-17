@@ -5,7 +5,7 @@ import { ScrollView, Text, View } from "react-native";
 export default function Receipt(props) {
   const svRef = useRef(null);
   return (
-    <View style={{ maxHeight: 400 }}>
+    <View style={{ maxHeight: 300 }}>
       {/* <TearLines
         ref={svRef}
         color="#EBEBEB"
