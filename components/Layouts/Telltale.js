@@ -6,9 +6,9 @@ export default function Telltale(props) {
   return (
     <View
       style={
-        props.style
-          ? props.style
-          : { padding: 50, paddingTop: 80, paddingBottom: 40 }
+        props.small
+          ? { padding: 20, ...props.style }
+          : { padding: 40, paddingTop: 80, paddingBottom: 40, ...props.style }
       }
     >
       <View

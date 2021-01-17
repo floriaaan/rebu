@@ -1,11 +1,11 @@
 import React, { useRef } from "react";
 import { ScrollView, Text, View } from "react-native";
-import TearLines from "react-native-tear-lines";
+// import TearLines from "react-native-tear-lines";
 
 export default function Receipt(props) {
   const svRef = useRef(null);
   return (
-    <View style={{ height: 400 }}>
+    <View style={{ maxHeight: 400 }}>
       {/* <TearLines
         ref={svRef}
         color="#EBEBEB"

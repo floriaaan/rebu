@@ -20,7 +20,7 @@ export const routes = [
   {
     name: "Order",
     component: OrderScreen,
-    options: { headerShown: false },
+    options: { headerShown: false, unmountOnBlur: true },
   },
   {
     name: "Search",

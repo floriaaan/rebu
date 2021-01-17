@@ -9,18 +9,30 @@ import { StatusBar } from "expo-status-bar";
 import { Provider as PaperProvider } from "react-native-paper";
 
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-const Stack = createStackNavigator();
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { DrawerContent } from "./components/Layouts/DrawerContent";
 const Drawer = createDrawerNavigator();
-import Animated from "react-native-reanimated";
 
-import firebase from "./utils/firebase";
 import "./utils/firebase_fix";
 
 import { routes, authentication } from "./routes";
 import { user } from "./const";
+
+import { fromBottom, fromLeft, zoomOut } from "react-navigation-transitions";
+
+const handleCustomTransition = ({ scenes }) => {
+  const prevScene = scenes[scenes.length - 2];
+  const nextScene = scenes[scenes.length - 1];
+
+  // Custom transitions go there
+  if (
+    prevScene &&
+    nextScene.route.routeName === "Order"
+  ) {
+    return fromBottom();
+  }
+  return fromLeft();
+};
 
 export default function App() {
   const [auth, setAuth] = React.useState(user);
@@ -33,14 +45,15 @@ export default function App() {
     >
       <StatusBar style="light"></StatusBar>
       <NavigationContainer>
-        {auth.uid ? (
-          <Drawer.Navigator
-            initialRouteName="Orders"
-            drawerContent={(props) => (
-              <DrawerContent auth={auth} _auth={setAuth} {...props} />
-            )}
-          >
-            {routes.map((el, key) => {
+        <Drawer.Navigator
+          initialRouteName={auth.uid ? "Orders" : "Login"}
+          drawerContent={(props) => (
+            <DrawerContent auth={auth} _auth={setAuth} {...props} />
+          )}
+          transitionConfig={(nav) => handleCustomTransition(nav)}
+        >
+          {auth.uid &&
+            routes.map((el, key) => {
               return (
                 <Drawer.Screen
                   options={el.options}
@@ -51,12 +64,11 @@ export default function App() {
                 />
               );
             })}
-          </Drawer.Navigator>
-        ) : (
-          <Stack.Navigator initialRouteName="Login">
-            {authentication.map((el, key) => {
+
+          {!auth.uid &&
+            authentication.map((el, key) => {
               return (
-                <Stack.Screen
+                <Drawer.Screen
                   options={el.options}
                   name={el.name}
                   component={el.component}
@@ -65,8 +77,7 @@ export default function App() {
                 />
               );
             })}
-          </Stack.Navigator>
-        )}
+        </Drawer.Navigator>
       </NavigationContainer>
     </PaperProvider>
   );

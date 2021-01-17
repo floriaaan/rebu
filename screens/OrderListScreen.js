@@ -73,17 +73,14 @@ export default function OrderListScreen(props) {
     >
       <View style={{ marginTop: 50 }}>
         <Telltale
-          style={{ paddingHorizontal: 20, marginBottom: 15 }}
+          small
           line1={{ text: "Orders ", name: "in progress" }}
         ></Telltale>
         <RenderList
           list={oInProgress}
           navigation={props.navigation}
         ></RenderList>
-        <Telltale
-          style={{ paddingHorizontal: 20, marginBottom: 15 }}
-          line1={{ text: "Orders ", name: "done" }}
-        ></Telltale>
+        <Telltale small line1={{ text: "Orders ", name: "done" }}></Telltale>
         <RenderList list={oDone} navigation={props.navigation}></RenderList>
       </View>
     </ScreenTemplate>
